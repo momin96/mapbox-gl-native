@@ -504,7 +504,7 @@ final class NativeMapView {
     }
 
     public void addSource(@NonNull Source source) {
-        nativeAddSource(mNativeMapViewPtr, source.getId(), source);
+        nativeAddSource(mNativeMapViewPtr, source.getNativePtr());
     }
 
     public void removeSource(@NonNull String sourceId) throws NoSuchSourceException {
@@ -719,7 +719,7 @@ final class NativeMapView {
 
     private native Source nativeGetSource(long nativeMapViewPtr, String sourceId);
 
-    private native void nativeAddSource(long nativeMapViewPtr, String id, Source source);
+    private native void nativeAddSource(long nativeMapViewPtr, long nativeSourcePtr);
 
     private native void nativeRemoveSource(long nativeMapViewPtr, String sourceId) throws NoSuchSourceException;
 
