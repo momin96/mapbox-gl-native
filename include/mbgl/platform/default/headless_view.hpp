@@ -44,7 +44,7 @@ public:
     void activate() override;
     void deactivate() override;
 
-    PremultipliedImage readStillImage() override;
+    PremultipliedImage readStillImage(std::array<uint16_t, 2> size = {{ 0, 0 }}) override;
 
     void resize(uint16_t width, uint16_t height);
 
