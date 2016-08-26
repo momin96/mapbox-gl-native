@@ -61,12 +61,13 @@ void TileSourceImpl::load(FileSource& fileSource) {
     }
 
     const std::string& url = urlOrTileset.get<std::string>();
-    req = fileSource.request(Resource::source(url), [this, url](Response res) {
+    req = fileSource.request(Resource::source(url), [this, &fileSource, url](Response res) {
         if (res.error) {
             observer->onSourceError(base, std::make_exception_ptr(std::runtime_error(res.error->message)));
         } else if (res.notModified) {
             return;
         } else if (res.noContent) {
+            fileSource.reportBad(Resource::source(url));
             observer->onSourceError(base, std::make_exception_ptr(std::runtime_error("unexpectedly empty TileJSON")));
         } else {
             Tileset newTileset;
@@ -77,6 +78,7 @@ void TileSourceImpl::load(FileSource& fileSource) {
             try {
                 newTileset = parseTileJSON(*res.data, url, type, tileSize);
             } catch (...) {
+                fileSource.reportBad(Resource::source(url));
                 observer->onSourceError(base, std::current_exception());
                 return;
             }

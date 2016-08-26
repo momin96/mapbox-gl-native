@@ -912,6 +912,10 @@ void Map::Impl::onNeedsRepaint() {
 }
 
 void Map::Impl::onStyleError() {
+    if (!styleURL.empty()) {
+        fileSource.reportBad(Resource::source(styleURL));
+    }
+
     view.notifyMapChange(MapChangeDidFailLoadingMap);
 }
 
