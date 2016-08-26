@@ -24,6 +24,11 @@ public:
     // not be executed.
     virtual std::unique_ptr<AsyncRequest> request(const Resource&, Callback) = 0;
 
+    // A FileSource implementation might implement some sort of caching. In this case,
+    // it needs to be informed when the resource returned is bad, so it can be evicted
+    // from the cache if needed. Otherwise it might stay in the cache until expiration.
+    virtual void reportBad(const Resource&) {}
+
     // When a file source supports optional requests, it must return true.
     // Optional requests are requests that aren't as urgent, but could be useful, e.g.
     // to cover part of the map while loading. The FileSource should only do cheap actions to

@@ -34,6 +34,7 @@ public:
 
     // Return value is (inserted, stored size)
     std::pair<bool, uint64_t> put(const Resource&, const Response&);
+    void remove(const Resource&);
 
     std::vector<OfflineRegion> listRegions();
 

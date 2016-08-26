@@ -184,6 +184,15 @@ std::pair<bool, uint64_t> OfflineDatabase::putInternal(const Resource& resource,
     return { inserted, size };
 }
 
+void OfflineDatabase::remove(const Resource& resource) {
+    // clang-format off
+    Statement stmt = getStatement("DELETE FROM resources WHERE url = ?1");
+    // clang-format on
+
+    stmt->bind(1, resource.url);
+    stmt->run();
+}
+
 optional<std::pair<Response, uint64_t>> OfflineDatabase::getResource(const Resource& resource) {
     // clang-format off
     Statement accessedStmt = getStatement(

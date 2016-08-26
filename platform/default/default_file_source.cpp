@@ -113,6 +113,10 @@ public:
         }
     }
 
+    void remove(const Resource& resource) {
+        offlineDatabase.remove(resource);
+    }
+
     void cancel(AsyncRequest* req) {
         tasks.erase(req);
     }
@@ -180,6 +184,10 @@ std::unique_ptr<AsyncRequest> DefaultFileSource::request(const Resource& resourc
     } else {
         return std::make_unique<DefaultFileRequest>(resource, callback, *thread);
     }
+}
+
+void DefaultFileSource::reportBad(const Resource& resource) {
+    thread->invoke(&Impl::remove, resource);
 }
 
 void DefaultFileSource::listOfflineRegions(std::function<void (std::exception_ptr, optional<std::vector<OfflineRegion>>)> callback) {

@@ -35,6 +35,8 @@ public:
 
     std::unique_ptr<AsyncRequest> request(const Resource&, Callback) override;
 
+    void reportBad(const Resource&) override;
+
     /*
      * Retrieve all regions in the offline database.
      *
