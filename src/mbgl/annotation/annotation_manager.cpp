@@ -121,9 +121,7 @@ std::unique_ptr<AnnotationTileData> AnnotationManager::getTileData(const Canonic
 
     auto tileData = std::make_unique<AnnotationTileData>();
 
-    AnnotationTileLayer& pointLayer = *tileData->layers.emplace(
-        PointLayerID,
-        std::make_unique<AnnotationTileLayer>(PointLayerID)).first->second;
+    AnnotationTileLayer& pointLayer = tileData->layers.emplace(PointLayerID, PointLayerID).first->second;
 
     LatLngBounds tileBounds(tileID);
 
